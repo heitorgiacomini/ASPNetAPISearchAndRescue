@@ -24,11 +24,11 @@ namespace SearchAndRescue.Business
         }
 
     }
+    //Npgsql.PostgresTypes
+    //public NpgsqlPoint NpgsqlPoint { get; set; }
+    //public Geography Geography { get; set; }
+    //public DbGeography DbGeography { get; set; }
+    //public GeometryPoint GeometryPoint { get; set; }
+    //public Point Center { get; set; }
+    //public Point NetTopologySuitePoint { get; set; }
 }
-//Npgsql.PostgresTypes
-//public NpgsqlPoint NpgsqlPoint { get; set; }
-//public Geography Geography { get; set; }
-//public DbGeography DbGeography { get; set; }
-//public GeometryPoint GeometryPoint { get; set; }
-//public Point Center { get; set; }
-//public Point NetTopologySuitePoint { get; set; }
