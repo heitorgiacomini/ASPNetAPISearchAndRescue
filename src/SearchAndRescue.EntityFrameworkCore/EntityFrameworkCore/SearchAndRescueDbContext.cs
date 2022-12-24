@@ -1,4 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using SearchAndRescue.Business;
+using SearchAndRescue.EntityFrameworkCore.Mappings;
 using Volo.Abp.AuditLogging.EntityFrameworkCore;
 using Volo.Abp.BackgroundJobs.EntityFrameworkCore;
 using Volo.Abp.Data;
@@ -52,6 +54,7 @@ public class SearchAndRescueDbContext :
 
     #endregion
 
+    public DbSet<Operation> Operation { get; set; }
     public SearchAndRescueDbContext(DbContextOptions<SearchAndRescueDbContext> options)
         : base(options)
     {
@@ -74,12 +77,13 @@ public class SearchAndRescueDbContext :
         builder.ConfigureTenantManagement();
 
         /* Configure your own tables/entities inside here */
-
         //builder.Entity<YourEntity>(b =>
         //{
         //    b.ToTable(SearchAndRescueConsts.DbTablePrefix + "YourEntities", SearchAndRescueConsts.DbSchema);
         //    b.ConfigureByConvention(); //auto configure for the base class props
         //    //...
         //});
+
+        builder.ApplyConfiguration(new OperationMap());
     }
 }

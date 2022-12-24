@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.Spatial;
 
-namespace SearchAndRescue.Entities
+namespace SearchAndRescue.Business
 {
     public class MissingPerson
     {

@@ -4,7 +4,7 @@ using Volo.Abp.Domain.Entities.Auditing;
 using Volo.Abp.Identity;
 using Volo.Abp.MultiTenancy;
 
-namespace SearchAndRescue.Entities
+namespace SearchAndRescue.Business
 {
     public class Search : FullAuditedAggregateRoot<long>, IMultiTenant
     {
@@ -14,5 +14,6 @@ namespace SearchAndRescue.Entities
         //[Column(TypeName = "geography")]
         public Geography GeographyLineString { get; set; }
         public IdentityUser IdentityUser { get; set; }
+        public int Precisao { get; set; }
     }
 }

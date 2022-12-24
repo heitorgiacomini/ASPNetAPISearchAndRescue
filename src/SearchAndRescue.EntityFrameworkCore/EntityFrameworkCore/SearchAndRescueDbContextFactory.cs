@@ -1,8 +1,8 @@
-﻿using System;
-using System.IO;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.Configuration;
+using System;
+using System.IO;
 
 namespace SearchAndRescue.EntityFrameworkCore;
 
@@ -20,7 +20,7 @@ public class SearchAndRescueDbContextFactory : IDesignTimeDbContextFactory<Searc
         var configuration = BuildConfiguration();
 
         var builder = new DbContextOptionsBuilder<SearchAndRescueDbContext>()
-            .UseNpgsql(configuration.GetConnectionString("Default"));
+            .UseNpgsql(configuration.GetConnectionString("Default"), x => x.UseNetTopologySuite());
 
         return new SearchAndRescueDbContext(builder.Options);
     }
