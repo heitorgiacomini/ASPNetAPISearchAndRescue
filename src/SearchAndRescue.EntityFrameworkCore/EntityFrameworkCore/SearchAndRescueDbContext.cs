@@ -66,7 +66,7 @@ public class SearchAndRescueDbContext :
         base.OnModelCreating(builder);
 
         /* Include modules to your migration db context */
-
+        builder.HasPostgresExtension("postgis");
         builder.ConfigurePermissionManagement();
         builder.ConfigureSettingManagement();
         builder.ConfigureBackgroundJobs();

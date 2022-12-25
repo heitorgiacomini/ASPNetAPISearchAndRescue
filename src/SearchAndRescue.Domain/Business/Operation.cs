@@ -1,5 +1,6 @@
 ﻿using NetTopologySuite.Geometries;
 using System;
+using System.ComponentModel.DataAnnotations.Schema;
 using Volo.Abp.Domain.Entities.Auditing;
 using Volo.Abp.MultiTenancy;
 
@@ -11,7 +12,8 @@ namespace SearchAndRescue.Business
         public string Name { get; set; }
         //HasConversion(new GeographyValueConverter()
         //[Column(TypeName = "geography")]
-        public Point GeometryPoint { get; set; }
+        [Column(TypeName = "geography")]
+        public Point Point { get; set; }
         //public CoordinateZ CoordinateZ { get; set; }
         public decimal RadiusOfInterest { get; set; }
         public DateTime StartDate { get; set; }
@@ -24,11 +26,11 @@ namespace SearchAndRescue.Business
         }
 
     }
-    //Npgsql.PostgresTypes
-    //public NpgsqlPoint NpgsqlPoint { get; set; }
-    //public Geography Geography { get; set; }
-    //public DbGeography DbGeography { get; set; }
-    //public GeometryPoint GeometryPoint { get; set; }
-    //public Point Center { get; set; }
-    //public Point NetTopologySuitePoint { get; set; }
 }
+//Npgsql.PostgresTypes
+//public NpgsqlPoint NpgsqlPoint { get; set; }
+//public Geography Geography { get; set; }
+//public DbGeography DbGeography { get; set; }
+//public GeometryPoint GeometryPoint { get; set; }
+//public Point Center { get; set; }
+//public Point NetTopologySuitePoint { get; set; }

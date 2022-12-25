@@ -14,8 +14,8 @@ using Volo.Abp.EntityFrameworkCore;
 namespace SearchAndRescue.Migrations
 {
     [DbContext(typeof(SearchAndRescueDbContext))]
-    [Migration("20221224234635_opd")]
-    partial class opd
+    [Migration("20221225223734_Operation")]
+    partial class Operation
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -62,9 +62,6 @@ namespace SearchAndRescue.Migrations
                     b.Property<DateTime>("EndDate")
                         .HasColumnType("timestamp without time zone");
 
-                    b.Property<Point>("GeometryPoint")
-                        .HasColumnType("geometry");
-
                     b.Property<bool>("IsDeleted")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("boolean")
@@ -85,6 +82,9 @@ namespace SearchAndRescue.Migrations
                     b.Property<long?>("OperationStatusId")
                         .HasColumnType("bigint");
 
+                    b.Property<Point>("Point")
+                        .HasColumnType("geography");
+
                     b.Property<decimal>("RadiusOfInterest")
                         .HasColumnType("numeric");
 
@@ -99,7 +99,7 @@ namespace SearchAndRescue.Migrations
 
                     b.HasIndex("OperationStatusId");
 
-                    b.ToTable("AppOperation", (string)null);
+                    b.ToTable("AppOperation", "Business");
                 });
 
             modelBuilder.Entity("SearchAndRescue.Business.OperationStatus", b =>
