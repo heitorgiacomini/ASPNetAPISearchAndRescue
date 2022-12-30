@@ -59,10 +59,6 @@ namespace SearchAndRescue.Migrations
                     b.Property<DateTime>("EndDate")
                         .HasColumnType("timestamp without time zone");
 
-                    b.Property<string>("ExtraProperties")
-                        .HasColumnType("text")
-                        .HasColumnName("ExtraProperties");
-
                     b.Property<bool>("IsDeleted")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("boolean")
@@ -100,7 +96,7 @@ namespace SearchAndRescue.Migrations
 
                     b.HasIndex("OperationStatusId");
 
-                    b.ToTable("Operation");
+                    b.ToTable("AppOperation", "Business");
                 });
 
             modelBuilder.Entity("SearchAndRescue.Business.OperationStatus", b =>

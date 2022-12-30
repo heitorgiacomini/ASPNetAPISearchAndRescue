@@ -8,11 +8,14 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace SearchAndRescue.Migrations
 {
     /// <inheritdoc />
-    public partial class opTestF : Migration
+    public partial class operationTestL : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.EnsureSchema(
+                name: "Business");
+
             migrationBuilder.AlterDatabase()
                 .Annotation("Npgsql:PostgresExtension:postgis", ",,");
 
@@ -40,7 +43,8 @@ namespace SearchAndRescue.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Operation",
+                name: "AppOperation",
+                schema: "Business",
                 columns: table => new
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false)
@@ -51,7 +55,6 @@ namespace SearchAndRescue.Migrations
                     StartDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
                     EndDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
                     OperationStatusId = table.Column<long>(type: "bigint", nullable: false),
-                    ExtraProperties = table.Column<string>(type: "text", nullable: true),
                     ConcurrencyStamp = table.Column<string>(type: "character varying(40)", maxLength: 40, nullable: true),
                     CreationTime = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
                     CreatorId = table.Column<Guid>(type: "uuid", nullable: true),
@@ -64,9 +67,9 @@ namespace SearchAndRescue.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Operation", x => x.Id);
+                    table.PrimaryKey("PK_AppOperation", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Operation_OperationStatus_OperationStatusId",
+                        name: "FK_AppOperation_OperationStatus_OperationStatusId",
                         column: x => x.OperationStatusId,
                         principalTable: "OperationStatus",
                         principalColumn: "Id",
@@ -74,8 +77,9 @@ namespace SearchAndRescue.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Operation_OperationStatusId",
-                table: "Operation",
+                name: "IX_AppOperation_OperationStatusId",
+                schema: "Business",
+                table: "AppOperation",
                 column: "OperationStatusId");
         }
 
@@ -83,7 +87,8 @@ namespace SearchAndRescue.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Operation");
+                name: "AppOperation",
+                schema: "Business");
 
             migrationBuilder.DropTable(
                 name: "OperationStatus");

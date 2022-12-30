@@ -105,6 +105,6 @@ public class SearchAndRescueDbContext :
         //    //...
         //});
 
-        //builder.ApplyConfiguration(new OperationMap());
+        builder.ApplyConfiguration(new OperationMap());
     }
 }
