@@ -1,25 +1,29 @@
 ﻿using NetTopologySuite.Geometries;
 using System;
 using System.ComponentModel.DataAnnotations.Schema;
-using Volo.Abp.Domain.Entities.Auditing;
-using Volo.Abp.MultiTenancy;
 
 namespace SearchAndRescue.Business
 {
     public class Operation : BaseClass
     {
-        public string Name { get; set; }
-        [Column(TypeName = "geography")]
-        public Point Point { get; set; }
-        public decimal RadiusOfInterest { get; set; }
-        public DateTime StartDate { get; set; }
-        public DateTime EndDate { get; set; }
-        public long OperationStatusId { get; set; }
-        public OperationStatus OperationStatus { get; set; }
+        //installed entity framework to project
+        //define database type geometry to point set as nullable
+        [Column(TypeName = "geometry (PointZ, 4326)") ]
+        public Point PointAsGeometry { get; set; }
+        [Column(TypeName = "geography(POINT,4326)")]
+        public Point PointAsGeography { get; set; } 
+        //public CoordinateZ PCoordinateZ { get; set; }
+        ////public SQLGeography PDbGeography { get; set; }
+        //public string Name { get; set; }
+        //public decimal? RadiusOfInterest { get; set; }
+        //public DateTime? StartDate { get; set; }
+        //public DateTime? EndDate { get; set; }
+        //public long? OperationStatusId { get; set; }
+        //public OperationStatus OperationStatus { get; set; }
 
         public Operation()
         {
-            
+            //PointAsGeometry.Distance(new Point(1, 1));
         }
 
     }
