@@ -14,8 +14,8 @@ using Volo.Abp.EntityFrameworkCore;
 namespace SearchAndRescue.Migrations
 {
     [DbContext(typeof(SearchAndRescueDbContext))]
-    [Migration("20221225223734_Operation")]
-    partial class Operation
+    [Migration("20221230020200_opTestF")]
+    partial class opTestF
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -62,6 +62,10 @@ namespace SearchAndRescue.Migrations
                     b.Property<DateTime>("EndDate")
                         .HasColumnType("timestamp without time zone");
 
+                    b.Property<string>("ExtraProperties")
+                        .HasColumnType("text")
+                        .HasColumnName("ExtraProperties");
+
                     b.Property<bool>("IsDeleted")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("boolean")
@@ -79,7 +83,7 @@ namespace SearchAndRescue.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("text");
 
-                    b.Property<long?>("OperationStatusId")
+                    b.Property<long>("OperationStatusId")
                         .HasColumnType("bigint");
 
                     b.Property<Point>("Point")
@@ -99,7 +103,7 @@ namespace SearchAndRescue.Migrations
 
                     b.HasIndex("OperationStatusId");
 
-                    b.ToTable("AppOperation", "Business");
+                    b.ToTable("Operation");
                 });
 
             modelBuilder.Entity("SearchAndRescue.Business.OperationStatus", b =>
@@ -1604,7 +1608,9 @@ namespace SearchAndRescue.Migrations
                 {
                     b.HasOne("SearchAndRescue.Business.OperationStatus", "OperationStatus")
                         .WithMany()
-                        .HasForeignKey("OperationStatusId");
+                        .HasForeignKey("OperationStatusId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("OperationStatus");
                 });

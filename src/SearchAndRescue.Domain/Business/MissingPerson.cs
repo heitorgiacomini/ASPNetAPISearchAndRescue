@@ -4,7 +4,7 @@ using System.Spatial;
 
 namespace SearchAndRescue.Business
 {
-    public class MissingPerson
+    public class MissingPerson : BaseClass
     {
         //HasConversion(new GeographyValueConverter()
         //[Column(TypeName = "geography")]

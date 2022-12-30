@@ -6,27 +6,30 @@ using Volo.Abp.MultiTenancy;
 
 namespace SearchAndRescue.Business
 {
-    public class Operation : FullAuditedAggregateRoot<long>, IMultiTenant
+    public class Operation : BaseClass
     {
-        public Guid? TenantId { get; set; }
         public string Name { get; set; }
-        //HasConversion(new GeographyValueConverter()
-        //[Column(TypeName = "geography")]
         [Column(TypeName = "geography")]
         public Point Point { get; set; }
-        //public CoordinateZ CoordinateZ { get; set; }
         public decimal RadiusOfInterest { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
+        public long OperationStatusId { get; set; }
         public OperationStatus OperationStatus { get; set; }
 
         public Operation()
         {
-
+            
         }
 
     }
 }
+
+//HasConversion(new GeographyValueConverter()
+//[Column(TypeName = "geography")]
+
+//public CoordinateZ CoordinateZ { get; set; }
+
 //Npgsql.PostgresTypes
 //public NpgsqlPoint NpgsqlPoint { get; set; }
 //public Geography Geography { get; set; }

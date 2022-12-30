@@ -6,9 +6,8 @@ using Volo.Abp.MultiTenancy;
 
 namespace SearchAndRescue.Business
 {
-    public class Search : FullAuditedAggregateRoot<long>, IMultiTenant
+    public class Search : BaseClass
     {
-        public Guid? TenantId { get; set; }
 
         //HasConversion(new GeographyValueConverter()
         //[Column(TypeName = "geography")]

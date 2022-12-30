@@ -5,13 +5,12 @@ using Volo.Abp.MultiTenancy;
 
 namespace SearchAndRescue.Business
 {
-    public class Race : FullAuditedAggregateRoot<long>, IMultiTenant
+    public class Race : BaseClass
     {
 
         [Required]
         [MaxLength(30)]
         public string Name { get; set; }
-        public Guid? TenantId { get; set; }
 
     }
 }

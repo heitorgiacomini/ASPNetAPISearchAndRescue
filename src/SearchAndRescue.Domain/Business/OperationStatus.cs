@@ -4,9 +4,8 @@ using Volo.Abp.MultiTenancy;
 
 namespace SearchAndRescue.Business
 {
-    public class OperationStatus : FullAuditedAggregateRoot<long>, IMultiTenant
+    public class OperationStatus : BaseClass
     {
-        public Guid? TenantId { get; set; }
         public string Name { get; set; }
     }
 }

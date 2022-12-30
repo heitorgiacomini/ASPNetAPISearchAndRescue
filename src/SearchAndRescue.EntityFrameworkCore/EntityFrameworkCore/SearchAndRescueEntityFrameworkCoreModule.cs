@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using Volo.Abp.AuditLogging.EntityFrameworkCore;
@@ -39,19 +40,30 @@ public class SearchAndRescueEntityFrameworkCoreModule : AbpModule
 
     public override void ConfigureServices(ServiceConfigurationContext context)
     {
+       
         context.Services.AddAbpDbContext<SearchAndRescueDbContext>(options =>
         {
             /* Remove "includeAllEntities: true" to create
              * default repositories only for aggregate roots */
             options.AddDefaultRepositories(includeAllEntities: true);
+
         });
 
         Configure<AbpDbContextOptions>(options =>
         {
+            
             /* The main point to change your DBMS.
-             * See also SearchAndRescueMigrationsDbContextFactory for EF Core tooling. */
-            options.UseNpgsql();
+             * See also SearchAndRescueMigrationsDbContextFactory for EF Core tooling. */ 
+            options.UseNpgsql(x => x.UseNetTopologySuite());
         });
 
+        //Configure<AbpDbContextOptions>(options =>
+        //{
+        //    options.Configure(c =>
+        //    {
+        //        c.UseSqlServer();
+        //        c.DbContextOptions.UseTriggers();
+        //    });
+        //});
     }
 }

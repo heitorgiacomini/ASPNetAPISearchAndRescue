@@ -1,4 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using SearchAndRescue.Business;
 using SearchAndRescue.EntityFrameworkCore.Mappings;
 using Volo.Abp.AuditLogging.EntityFrameworkCore;
@@ -61,10 +63,29 @@ public class SearchAndRescueDbContext :
 
     }
 
+    //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    //{
+    //    var connectionString = "server=127.0.0.1;port=3306;user=root;password=;database=Issue1619";
+    //    var serverVersion = ServerVersion.AutoDetect(connectionString);
+
+    //    optionsBuilder
+    //        .UseNpgsql(
+    //            connectionString, 
+    //            options => options.UseNetTopologySuite())
+    //        .UseLoggerFactory(
+    //            LoggerFactory.Create(
+    //                b => b
+    //                    .AddConsole()
+    //                    .AddFilter(level => level >= LogLevel.Information)))
+    //        .EnableSensitiveDataLogging()
+    //        .EnableDetailedErrors();
+    //}
+
+
     protected override void OnModelCreating(ModelBuilder builder)
     {
         base.OnModelCreating(builder);
-
+         
         /* Include modules to your migration db context */
         builder.HasPostgresExtension("postgis");
         builder.ConfigurePermissionManagement();
@@ -84,6 +105,6 @@ public class SearchAndRescueDbContext :
         //    //...
         //});
 
-        builder.ApplyConfiguration(new OperationMap());
+        //builder.ApplyConfiguration(new OperationMap());
     }
 }

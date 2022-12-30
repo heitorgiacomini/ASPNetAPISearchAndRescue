@@ -33,4 +33,5 @@ public class SearchAndRescueDbContextFactory : IDesignTimeDbContextFactory<Searc
 
         return builder.Build();
     }
+    
 }

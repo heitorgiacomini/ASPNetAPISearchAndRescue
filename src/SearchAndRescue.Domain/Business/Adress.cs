@@ -3,7 +3,7 @@ using Volo.Abp.Domain.Entities.Auditing;
 
 namespace SearchAndRescue.Business
 {
-    public class Adress : FullAuditedAggregateRoot<long>
+    public class Adress : BaseClass
     {
         [MaxLength(30)]
         public string PostalCode { get; set; }
