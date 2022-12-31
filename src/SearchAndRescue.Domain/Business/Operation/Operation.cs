@@ -1,17 +1,19 @@
 ﻿using NetTopologySuite.Geometries;
 using System;
 using System.ComponentModel.DataAnnotations.Schema;
+using Volo.Abp.Domain.Entities;
+using Volo.Abp.Domain.Entities.Auditing;
 
-namespace SearchAndRescue.Business
+namespace SearchAndRescue.Business.Operation
 {
-    public class Operation : BaseClass
+    public class Operation : AggregateRoot<long> //: BaseClass AggregateRoot
     {
         //installed entity framework to project
         //define database type geometry to point set as nullable
-        [Column(TypeName = "geometry (PointZ, 4326)") ]
+        [Column(TypeName = "geometry (PointZ, 4326)")]
         public Point PointAsGeometry { get; set; }
         [Column(TypeName = "geography(POINT,4326)")]
-        public Point PointAsGeography { get; set; } 
+        public Point PointAsGeography { get; set; }
         //public CoordinateZ PCoordinateZ { get; set; }
         ////public SQLGeography PDbGeography { get; set; }
         //public string Name { get; set; }

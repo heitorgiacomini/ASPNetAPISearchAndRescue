@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using SearchAndRescue.Business;
+using SearchAndRescue.Business.Operation;
 using SearchAndRescue.Contracts.Operation;
 
 namespace SearchAndRescue;
@@ -12,6 +12,9 @@ public class SearchAndRescueApplicationAutoMapperProfile : Profile
          * Alternatively, you can split your mapping configurations
          * into multiple profile classes for a better organization. */
         CreateMap<Operation, OperationDTO>();
-        CreateMap<CreateUpdateOperationDTO, Operation>();
+        CreateMap<CreateUpdateOperationDTO, Operation>(); 
+        
+
+
     }
 }

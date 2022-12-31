@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using SearchAndRescue.Business;
+using SearchAndRescue.Business.Operation;
 using Volo.Abp.EntityFrameworkCore.Modeling;
 
 namespace SearchAndRescue.EntityFrameworkCore.Mappings
@@ -15,8 +15,8 @@ namespace SearchAndRescue.EntityFrameworkCore.Mappings
 
             //t.Property(e => e.Point).HasColumnName("NetTopologySuitePoint").HasColumnType("geometry(PointZ, 4326)");
             //t.Property(e => e.GeometryPoint).HasColumnName("NetTopologySuitePoint").HasColumnType("geometry(PointZ, 4326)");
-            t.Ignore(p => p.ExtraProperties);
 
+            //t.Ignore(p => p.ExtraProperties);
         }
 
 
