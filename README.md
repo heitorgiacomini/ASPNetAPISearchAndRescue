@@ -1,3 +1,3 @@
-Haversine formula
+Haversine formula x Vincenty
 
  great circle routes 
