@@ -40,4 +40,50 @@
 
 
 //IProjectedCoordinateSystem UTM32N = ProjectedCoordinateSystem.WGS84_UTM(32, true);
+using NetTopologySuite.Algorithm.Locate;
+using NetTopologySuite.Geometries;
+using NetTopologySuite;
+
 Console.WriteLine(1);
+
+//PointAsGeometry.Distance(new Point(1, 1));
+
+Point point = new Point(5, 5);
+double cirRadiusInMiles = 1000;
+
+var geometryFactory = NtsGeometryServices.Instance.CreateGeometryFactory(4326); // WGS84
+
+var circleCenter = new NetTopologySuite.Geometries.Coordinate(point.X, point.Y);
+
+var circle = geometryFactory.CreatePoint(circleCenter).Buffer(cirRadiusInMiles / 69.17); // To me, this is 1000 meters because the SRID is WGS84.
+
+
+
+
+
+// Create a polygon using coordinates for the vertices
+Coordinate[] polygonCoords = new Coordinate[] {
+    new Coordinate(0, 0),
+    new Coordinate(0, 10),
+    new Coordinate(10, 10),
+    new Coordinate(10, 0),
+    new Coordinate(0, 0)
+};
+Polygon polygon = new Polygon(new LinearRing(polygonCoords));
+
+// Create an IndexedPointInAreaLocator for the polygon
+IndexedPointInAreaLocator locator = new IndexedPointInAreaLocator(polygon);
+
+// Create a point to test
+
+Coordinate pointCoord = new Coordinate(point.X, point.Y);
+// Use the locator to determine if the point is inside the polygon
+bool isInside = locator.Locate(pointCoord) == Location.Interior;
+if (isInside)
+{
+    Console.WriteLine("The point is inside the polygon.");
+}
+else
+{
+    Console.WriteLine("The point is outside the polygon.");
+}

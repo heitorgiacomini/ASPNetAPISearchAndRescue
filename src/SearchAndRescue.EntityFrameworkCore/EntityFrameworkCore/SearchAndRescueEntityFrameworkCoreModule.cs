@@ -1,12 +1,15 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using SearchAndRescue.Repositories;
+using SearchAndRescue.Utils;
 using System;
 using Volo.Abp.AuditLogging.EntityFrameworkCore;
 using Volo.Abp.BackgroundJobs.EntityFrameworkCore;
 using Volo.Abp.EntityFrameworkCore;
 using Volo.Abp.EntityFrameworkCore.PostgreSql;
 using Volo.Abp.FeatureManagement.EntityFrameworkCore;
+using Volo.Abp.Identity;
 using Volo.Abp.Identity.EntityFrameworkCore;
 using Volo.Abp.Modularity;
 using Volo.Abp.OpenIddict.EntityFrameworkCore;
@@ -36,6 +39,8 @@ public class SearchAndRescueEntityFrameworkCoreModule : AbpModule
         AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 
         SearchAndRescueEfCoreEntityExtensionMappings.Configure();
+
+         
     }
 
     public override void ConfigureServices(ServiceConfigurationContext context)
@@ -46,8 +51,18 @@ public class SearchAndRescueEntityFrameworkCoreModule : AbpModule
             /* Remove "includeAllEntities: true" to create
              * default repositories only for aggregate roots */
             options.AddDefaultRepositories(includeAllEntities: true);
-
+            //
+            
+            //options.AddRepository<IGenericRepository<TEntity, TKey>, EfCoreGenericRepository<TEntity, TKey>>;
+            //options.AddRepository< typeof(ISampleBlogRepository<,>), typeof(ISampleBlogRepository<,>) > ();
+            //options.AddRepository(typeof(ISampleBlogRepository<,>), typeof(SampleBlogRepositoryBase<,>));
         });
+        
+        context.Services.AddSingleton(typeof(ISampleBlogRepository<,>), typeof(SampleBlogRepositoryBase<,>));
+        context.Services.AddSingleton(typeof(IGenericRepository<,>), typeof(EfCoreGenericRepository<,>));
+        
+    
+
 
         Configure<AbpDbContextOptions>(options =>
         {
