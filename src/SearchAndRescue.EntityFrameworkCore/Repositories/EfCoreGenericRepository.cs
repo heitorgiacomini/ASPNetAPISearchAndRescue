@@ -35,6 +35,7 @@ namespace SearchAndRescue.Repositories
          
         public int UpdateLineString(NetTopologySuite.Geometries.Point point, string field, TKey id)
         {
+            
             var sql2 = $"""UPDATE "SearchAndRescue"."Business"."AppOperation" SET "{field}" = ST_AddPoint("{field}",ST_SetSRID(ST_MakePoint({point.X},{point.Y}), 4326)) WHERE "Id" = {id}""";
             return _sqlExecuter.Execute(sql2);
         } 
