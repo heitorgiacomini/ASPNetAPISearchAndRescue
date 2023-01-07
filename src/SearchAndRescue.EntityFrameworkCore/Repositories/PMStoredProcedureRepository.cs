@@ -44,7 +44,7 @@ namespace SearchAndRescue.Repositories
 
         public int UpdateLineString(NetTopologySuite.Geometries.Point point, string field, TPrimaryKey id)
         {
-            var sql = $"UPDATE \"SearchAndRescue\".\"Business\".\"AppOperation\" SET \"{field}\" = ST_AddPoint(\"{field}\",ST_SetSRID(ST_MakePoint({point.X} {point.Y}), 4326)) WHERE \"Id\" = {id}";
+            var sql = $"UPDATE \"SearchAndRescue\".\"Business\".\"AppOperation\" SET \"{field}\" = ST_AddPoint(\"{field}\",ST_SetSRID(ST_MakePoint({point.X},{point.Y}), 4326)) WHERE \"Id\" = {id}";
             var type = Context.Database.ExecuteSqlRaw(sql);
             return type; 
         }
