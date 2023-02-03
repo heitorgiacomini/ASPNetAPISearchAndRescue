@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using NetTopologySuite;
 using NetTopologySuite.Algorithm.Locate;
 using NetTopologySuite.Geometries;
 using SearchAndRescue.Business.Operation;
@@ -19,9 +20,9 @@ using Volo.Abp.EntityFrameworkCore;
 using Volo.Abp.ObjectMapping;
 using Volo.Abp.Uow;
 
-namespace SearchAndRescue.Entities
+namespace SearchAndRescue.Controllers
 {
-    public class OperationBAppService : SearchAndRescueAppService, IOperationAppService
+    public class OperationBAppService : SearchAndRescueAppService//, IOperationAppService
     {
 
         private readonly IRepository<Operation, long> _operationRepository;
@@ -31,7 +32,7 @@ namespace SearchAndRescue.Entities
         public OperationBAppService(
             IRepository<Operation, long> operationRepository,
             IGenericRepository<Operation, long> genericRepository
-            //ISampleBlogRepository<Operation, long> sampleBlogRepository
+        //ISampleBlogRepository<Operation, long> sampleBlogRepository
         )
         {
             _operationRepository = operationRepository;
@@ -46,11 +47,11 @@ namespace SearchAndRescue.Entities
             var qry = await _operationRepository.GetQueryableAsync();
             return null;
         }
-
         [AllowAnonymous]
         [HttpGet]
         [UnitOfWork]
-        public async Task<int> UpdateLineAsync() {
+        public async Task<int> UpdateLineAsync()
+        {
             var qry = await _operationRepository.GetQueryableAsync();
             var linestring = qry.Where(x => x.Name == "Lins").FirstOrDefault();
 
@@ -70,54 +71,59 @@ namespace SearchAndRescue.Entities
             //await _operationRepository.UpdateAsync(operation); 
         }
 
-        //[AllowAnonymous]
-        public async Task<OperationDTO> CreateAsync(CreateUpdateOperationDTO input)
+        [AllowAnonymous]
+        [HttpGet]
+        [UnitOfWork]
+        public async Task<bool?> CrieUmCirculoBaseadoEmUmPontoEUmRaioEmKm()
+        {
+            using (var uow = UnitOfWorkManager.Begin(requiresNew: true)) // Add this scope
+            {
+                try
+                {
+                    double cirRadiusInKms = 10;
+
+                    var geometryFactory = NtsGeometryServices.Instance.CreateGeometryFactory(4326); // WGS84
+                    
+                    var circleCenter = new NetTopologySuite.Geometries.Coordinate(-46.8754826, -23.6815315);
+
+                    var circle = geometryFactory.CreatePoint(circleCenter).Buffer(cirRadiusInKms);
+                    
+                   
+                    //await UnitOfWorkManager.Current.SaveChangesAsync();
+                    //await uow.CompleteAsync(); // Add this
+                    return null;
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
+            }
+        }
+        public double MeterToDegree(double meters, double latitude) { 
+            return meters / (111.32 * 1000 * Math.Cos(latitude * (Math.PI / 180))); 
+        }
+        [AllowAnonymous]
+        public async Task<OperationDTO> CrieVariasLineStringESalveTodasNoBancoDeUmaVez(CreateUpdateOperationDTO input)
         {
             using (var uow = UnitOfWorkManager.Begin(requiresNew: true)) // Add this scope
             {
                 try
                 {
                     List<Operation> ops = new List<Operation>();
-                    var lins = new Operation();
-                    
-
-                    Coordinate[] polygonCoords = new Coordinate[] {
-                        new Coordinate(-20.523359617261246, -50.76550190635486),
-                        new Coordinate(-20.523359617261246, -42.72350971885486),
-                        new Coordinate(-25.417091836608826, -42.72350971885486),
-                        new Coordinate(-25.417091836608826, -50.76550190635486),
-                        new Coordinate(-20.523359617261246, -50.76550190635486)
-                    };
-
-                    lins.Poligono = new Polygon(new LinearRing(polygonCoords)) { SRID = 4326 };
-
-                    // Create an IndexedPointInAreaLocator for the polygon
-                    IndexedPointInAreaLocator locator = new IndexedPointInAreaLocator(lins.Poligono);
-                    Coordinate pointCoord = new Coordinate(-21.6724244, -49.7620668);
-                    // Use the locator to determine if the point is inside the polygon
-                    bool isInside = locator.Locate(pointCoord) == NetTopologySuite.Geometries.Location.Interior;
-                    
-                    lins.PointAsGeography = new NetTopologySuite.Geometries.Point(-21.6724244, -49.7620668) { SRID = 4326 };
-                    var b = lins.Poligono.Contains(lins.PointAsGeography);
-
                     Coordinate[] cords = new Coordinate[] {
                         new Coordinate(-22.008739354151004, -49.9772135956213),
                         new Coordinate(-21.804878967027566, -49.6146647674963),
                         new Coordinate(-21.442312470615608 ,-49.3564860565588)
                     };
+
+                    var lins = new Operation();
                     
                     lins.Linha = new LineString(cords) { SRID = 4326 };
-                    //CoordinateList pontosDaLinha = (CoordinateList)lins.Linha.Coordinates.ToList();
 
-                    ////pontoDaLinha.(new Coordinate(-20.6724244, -48.7620668));
-                    //pontosDaLinha.AddLast(new Coordinate(-20.6724244, -48.7620668));
-                    
-                    //lins.Linha = new LineString(pontosDaLinha.ToArray()) { SRID = 4326 };
-                    
                     lins.Name = "Lins";
                     ops.Add(lins);
 
-                    
+
                     var sp = new Operation();
                     sp.PointAsGeography = new NetTopologySuite.Geometries.Point(-46.8754826, -23.6815315) { SRID = 4326 };
                     sp.Name = "São Paulo";
@@ -132,16 +138,7 @@ namespace SearchAndRescue.Entities
                     tokyo.PointAsGeography = new NetTopologySuite.Geometries.Point(139.6007843, 35.6684415) { SRID = 4326 };
                     tokyo.Name = "Tokyo";
                     ops.Add(tokyo);
-
-                    //operation.PointAsGeography.X = input.PointAsGeography.X;
-                    //operation.PointAsGeography.Y = input.PointAsGeography.Y;
-                    //operation.PointAsGeography.Z = input.PointAsGeography.Z;
-
-                    //operation.PointAsGeometry.X
-                    //operation.PointAsGeometry.Y
-                    //operation.PointAsGeometry.Z
-
-
+                     
                     await _operationRepository.InsertManyAsync(ops);
                     await UnitOfWorkManager.Current.SaveChangesAsync();
                     await uow.CompleteAsync(); // Add this
@@ -152,45 +149,40 @@ namespace SearchAndRescue.Entities
                     throw ex;
                 }
             }
-
         }
-        //[AllowAnonymous]
-        //public async Task<OperationDTO> CreateAsync(CreateUpdateOperationDTO input)
-        //{
-        //    input.PointAsGeography.X = -49.7620668;
-        //    input.PointAsGeography.Y = -21.6724244;
 
-        //    var operation = new Operation();
-        //    operation.PointAsGeography = new NetTopologySuite.Geometries.Point(input.PointAsGeography.X, input.PointAsGeography.Y) { SRID = 4326 };
-        //    //operation.PointAsGeography.X = input.PointAsGeography.X;
-        //    //operation.PointAsGeography.Y = input.PointAsGeography.Y;
-        //    //operation.PointAsGeography.Z = input.PointAsGeography.Z;
-
-        //    //operation.PointAsGeometry.X
-        //    //operation.PointAsGeometry.Y
-        //    //operation.PointAsGeometry.Z
-
-        //    using (var uow = UnitOfWorkManager.Begin(requiresNew: true)) // Add this scope
-        //    {
-
-        //        try
-        //        {
-        //            var x = await _operationRepository.InsertAsync(operation);
-        //            await UnitOfWorkManager.Current.SaveChangesAsync();
-        //            await uow.CompleteAsync(); // Add this
-        //        }
-        //        catch (Exception ex)
-        //        {
-        //            throw ex;
-        //        }
-        //    }
+        
+        [AllowAnonymous]
+        public async Task<OperationDTO> CrieUmPoligonoEVerifiqueSeUmPontoLhePertence(CreateUpdateOperationDTO input)
+        {
+            List<Operation> ops = new List<Operation>();
+            var lins = new Operation();
 
 
-        //    var test = ObjectMapper.Map<Operation, OperationDTO>(operation); ;
-        //    return test;
-        //}
+            Coordinate[] polygonCoords = new Coordinate[] {
+                new Coordinate(-20.523359617261246, -50.76550190635486),
+                new Coordinate(-20.523359617261246, -42.72350971885486),
+                new Coordinate(-25.417091836608826, -42.72350971885486),
+                new Coordinate(-25.417091836608826, -50.76550190635486),
+                new Coordinate(-20.523359617261246, -50.76550190635486)
+            };
 
-        //var operation = ObjectMapper.Map<CreateUpdateOperationDTO, Operation>(input); ;
+            lins.Poligono = new Polygon(new LinearRing(polygonCoords)) { SRID = 4326 };
+
+            // Create an IndexedPointInAreaLocator for the polygon
+            IndexedPointInAreaLocator locator = new IndexedPointInAreaLocator(lins.Poligono);
+            Coordinate pointCoord = new Coordinate(-21.6724244, -49.7620668);
+            // Use the locator to determine if the point is inside the polygon
+            bool isInside = locator.Locate(pointCoord) == NetTopologySuite.Geometries.Location.Interior;
+
+            lins.PointAsGeography = new NetTopologySuite.Geometries.Point(-21.6724244, -49.7620668) { SRID = 4326 };
+                    
+            var b = lins.Poligono.Contains(lins.PointAsGeography);
+
+
+            return null;
+        }
+         
 
         public Task DeleteAsync(long id)
         {
