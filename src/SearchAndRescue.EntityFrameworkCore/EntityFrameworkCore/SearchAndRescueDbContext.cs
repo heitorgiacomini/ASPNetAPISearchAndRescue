@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
-using SearchAndRescue.Business.Operation;
+using SearchAndRescue.Business;
 using SearchAndRescue.EntityFrameworkCore.Mappings;
 using Volo.Abp.AuditLogging.EntityFrameworkCore;
 using Volo.Abp.BackgroundJobs.EntityFrameworkCore;
@@ -56,7 +56,7 @@ public class SearchAndRescueDbContext :
 
     #endregion
 
-    public DbSet<Operation> Operation { get; set; }
+    public DbSet<GeoFunctions> Operation { get; set; }
     public SearchAndRescueDbContext(DbContextOptions<SearchAndRescueDbContext> options)
         : base(options)
     {
@@ -105,6 +105,6 @@ public class SearchAndRescueDbContext :
         //    //...
         //});
 
-        builder.ApplyConfiguration(new OperationMap());
+        builder.ApplyConfiguration(new GeoFunctionsMap());
     }
 }

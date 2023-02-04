@@ -8,7 +8,7 @@ using Volo.Abp.MultiTenancy;
 
 namespace SearchAndRescue.Business
 {
-    public class BaseClass : FullAuditedAggregateRoot<long>, IMultiTenant
+    public class BaseClassBusiness : FullAuditedAggregateRoot<long>, IMultiTenant
     {
         public Guid? TenantId { get; set; }
     }

@@ -1,16 +1,16 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using SearchAndRescue.Business.Operation;
+using SearchAndRescue.Business;
 using Volo.Abp.EntityFrameworkCore.Modeling;
 
 namespace SearchAndRescue.EntityFrameworkCore.Mappings
 {
-    public class OperationMap : IEntityTypeConfiguration<Operation>
+    public class GeoFunctionsMap : IEntityTypeConfiguration<GeoFunctionsBusiness>
     {
-        public void Configure(EntityTypeBuilder<Operation> t)
+        public void Configure(EntityTypeBuilder<GeoFunctionsBusiness> t)
         {
 
-            t.ToTable(SearchAndRescueConsts.DbTablePrefix + nameof(Operation), SearchAndRescueConsts.DbSchema);// SearchAndRescueConsts.DbSchema
+            t.ToTable(SearchAndRescueConsts.DbTablePrefix + nameof(GeoFunctionsBusiness), SearchAndRescueConsts.DbSchema);// SearchAndRescueConsts.DbSchema
             t.ConfigureByConvention();
 
             //t.Property(e => e.Point).HasColumnName("NetTopologySuitePoint").HasColumnType("geometry(PointZ, 4326)");

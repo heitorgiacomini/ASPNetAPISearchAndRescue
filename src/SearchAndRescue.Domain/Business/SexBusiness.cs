@@ -5,11 +5,12 @@ using Volo.Abp.MultiTenancy;
 
 namespace SearchAndRescue.Business
 {
-    public class City : BaseClass
+    public class SexBusiness : BaseClassBusiness
     {
-        [MaxLength(30)]
+
         [Required]
+        [MaxLength(30)]
         public string Name { get; set; }
-        public State State { get; set; }
+
     }
 }

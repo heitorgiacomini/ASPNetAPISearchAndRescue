@@ -1,47 +1,42 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using livraria.Authors;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using NetTopologySuite;
 using NetTopologySuite.Algorithm.Locate;
 using NetTopologySuite.Geometries;
-using SearchAndRescue.Business.Operation;
+using NetTopologySuite;
 using SearchAndRescue.Contracts.Operation;
-using SearchAndRescue.EntityFrameworkCore;
 using SearchAndRescue.Utils;
 using System;
 using System.Collections.Generic;
-//using System.Drawing;
 using System.Linq;
-using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
-using Volo.Abp.Application.Dtos;
-using Volo.Abp.Domain.Repositories;
-using Volo.Abp.EntityFrameworkCore;
-using Volo.Abp.ObjectMapping;
 using Volo.Abp.Uow;
+using Volo.Abp.Domain.Repositories;
+using SearchAndRescue.Business;
 
 namespace SearchAndRescue.Controllers
 {
-    public class OperationBAppService : SearchAndRescueAppService//, IOperationAppService
+    public class GeoFunctionsBusinessAppService : SearchAndRescueAppService
     {
+        private readonly IRepository<GeoFunctionsBusiness, long> _operationRepository;
+        private readonly IGenericRepository<GeoFunctionsBusiness, long> _genericRepository;
+        //private readonly ISampleBlogRepository<GeoFunctionsBusiness, long> _sampleBlogRepository;
 
-        private readonly IRepository<Operation, long> _operationRepository;
-        private readonly IGenericRepository<Operation, long> _genericRepository;
-        //private readonly ISampleBlogRepository<Operation, long> _sampleBlogRepository;
-
-        public OperationBAppService(
-            IRepository<Operation, long> operationRepository,
-            IGenericRepository<Operation, long> genericRepository
-        //ISampleBlogRepository<Operation, long> sampleBlogRepository
+        public GeoFunctionsBusinessAppService(
+            IRepository<GeoFunctionsBusiness, long> operationRepository,
+            IGenericRepository<GeoFunctionsBusiness, long> genericRepository
+        //ISampleBlogRepository<GeoFunctionsBusiness, long> sampleBlogRepository
         )
         {
             _operationRepository = operationRepository;
             _genericRepository = genericRepository;
             //_sampleBlogRepository = sampleBlogRepository;
-        }
+        }  
+        
         [AllowAnonymous]
         [HttpGet]
-        public async Task<List<Operation>> ListTesteAsync()
+        public async Task<List<GeoFunctionsBusiness>> ListTesteAsync()
         {
 
             var qry = await _operationRepository.GetQueryableAsync();
@@ -65,7 +60,7 @@ namespace SearchAndRescue.Controllers
                 return linhasafetadas;
             }
             // Use ST_AddPoint to add the point to the linestring
-            //_ctx.Database.CurrentTransaction.Operation.Local..FromSqlRaw("UPDATE linestrings SET geom = ST_AddPoint(geom, {0}, {1}) WHERE id = {2}", point.X, point.Y, linestring.Id);
+            //_ctx.Database.CurrentTransaction.GeoFunctionsBusiness.Local..FromSqlRaw("UPDATE linestrings SET geom = ST_AddPoint(geom, {0}, {1}) WHERE id = {2}", point.X, point.Y, linestring.Id);
             //_ctx.GetDbContext().Database.ExecuteSqlRaw();
 
             //await _operationRepository.UpdateAsync(operation); 
@@ -83,12 +78,12 @@ namespace SearchAndRescue.Controllers
                     double cirRadiusInKms = 10;
 
                     var geometryFactory = NtsGeometryServices.Instance.CreateGeometryFactory(4326); // WGS84
-                    
+
                     var circleCenter = new NetTopologySuite.Geometries.Coordinate(-46.8754826, -23.6815315);
 
                     var circle = geometryFactory.CreatePoint(circleCenter).Buffer(cirRadiusInKms);
-                    
-                   
+
+
                     //await UnitOfWorkManager.Current.SaveChangesAsync();
                     //await uow.CompleteAsync(); // Add this
                     return null;
@@ -99,8 +94,9 @@ namespace SearchAndRescue.Controllers
                 }
             }
         }
-        public double MeterToDegree(double meters, double latitude) { 
-            return meters / (111.32 * 1000 * Math.Cos(latitude * (Math.PI / 180))); 
+        public double MeterToDegree(double meters, double latitude)
+        {
+            return meters / (111.32 * 1000 * Math.Cos(latitude * (Math.PI / 180)));
         }
         [AllowAnonymous]
         public async Task<OperationDTO> CrieVariasLineStringESalveTodasNoBancoDeUmaVez(CreateUpdateOperationDTO input)
@@ -109,36 +105,36 @@ namespace SearchAndRescue.Controllers
             {
                 try
                 {
-                    List<Operation> ops = new List<Operation>();
+                    List<GeoFunctionsBusiness> ops = new List<GeoFunctionsBusiness>();
                     Coordinate[] cords = new Coordinate[] {
                         new Coordinate(-22.008739354151004, -49.9772135956213),
                         new Coordinate(-21.804878967027566, -49.6146647674963),
                         new Coordinate(-21.442312470615608 ,-49.3564860565588)
                     };
 
-                    var lins = new Operation();
-                    
+                    var lins = new GeoFunctionsBusiness();
+
                     lins.Linha = new LineString(cords) { SRID = 4326 };
 
                     lins.Name = "Lins";
                     ops.Add(lins);
 
 
-                    var sp = new Operation();
+                    var sp = new GeoFunctionsBusiness();
                     sp.PointAsGeography = new NetTopologySuite.Geometries.Point(-46.8754826, -23.6815315) { SRID = 4326 };
                     sp.Name = "São Paulo";
                     ops.Add(sp);
 
-                    var bauru = new Operation();
+                    var bauru = new GeoFunctionsBusiness();
                     bauru.PointAsGeography = new NetTopologySuite.Geometries.Point(-49.1605885, -22.2876835) { SRID = 4326 };
                     bauru.Name = "Bauru";
                     ops.Add(bauru);
 
-                    var tokyo = new Operation();
+                    var tokyo = new GeoFunctionsBusiness();
                     tokyo.PointAsGeography = new NetTopologySuite.Geometries.Point(139.6007843, 35.6684415) { SRID = 4326 };
                     tokyo.Name = "Tokyo";
                     ops.Add(tokyo);
-                     
+
                     await _operationRepository.InsertManyAsync(ops);
                     await UnitOfWorkManager.Current.SaveChangesAsync();
                     await uow.CompleteAsync(); // Add this
@@ -151,12 +147,12 @@ namespace SearchAndRescue.Controllers
             }
         }
 
-        
+
         [AllowAnonymous]
         public async Task<OperationDTO> CrieUmPoligonoEVerifiqueSeUmPontoLhePertence(CreateUpdateOperationDTO input)
         {
-            List<Operation> ops = new List<Operation>();
-            var lins = new Operation();
+            List<GeoFunctionsBusiness> ops = new List<GeoFunctionsBusiness>();
+            var lins = new GeoFunctionsBusiness();
 
 
             Coordinate[] polygonCoords = new Coordinate[] {
@@ -176,41 +172,11 @@ namespace SearchAndRescue.Controllers
             bool isInside = locator.Locate(pointCoord) == NetTopologySuite.Geometries.Location.Interior;
 
             lins.PointAsGeography = new NetTopologySuite.Geometries.Point(-21.6724244, -49.7620668) { SRID = 4326 };
-                    
+
             var b = lins.Poligono.Contains(lins.PointAsGeography);
 
 
             return null;
         }
-         
-
-        public Task DeleteAsync(long id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<OperationDTO> GetAsync(long id)
-        {
-            throw new NotImplementedException();
-        }
-
-
-        public async Task<PagedResultDto<OperationDTO>> GetListAsync(PagedAndSortedResultRequestDto input)
-        {
-
-            var operations = await _operationRepository.GetListAsync();
-
-            var totalCount = operations.Count();
-
-            return new PagedResultDto<OperationDTO>(
-                totalCount,
-                ObjectMapper.Map<List<Operation>, List<OperationDTO>>(operations));
-        }
-
-        public Task<OperationDTO> UpdateAsync(long id, CreateUpdateOperationDTO input)
-        {
-            throw new NotImplementedException();
-        }
-
     }
 }

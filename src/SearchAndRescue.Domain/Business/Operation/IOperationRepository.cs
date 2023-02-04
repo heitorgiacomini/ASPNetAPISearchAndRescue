@@ -1,5 +1,5 @@
 ﻿using livraria.Authors;
-using SearchAndRescue.Business.Operation;
+using SearchAndRescue.Business;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -7,11 +7,11 @@ using Volo.Abp.Domain.Repositories;
 
 namespace livraria.Authors
 {
-    public interface IOperationRepository : IRepository<Operation, long>
+    public interface IOperationRepository : IRepository<OperationBusiness, long>
     {
-        Task<Operation> FindByNameAsync(string name);
+        Task<OperationBusiness> FindByNameAsync(string name);
         
-        Task<List<Operation>> GetListAsync(
+        Task<List<OperationBusiness>> GetListAsync(
             int skipCount,
             int maxResultCount,
             string sorting,
