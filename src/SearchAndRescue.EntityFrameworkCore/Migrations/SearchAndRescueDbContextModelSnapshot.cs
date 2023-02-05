@@ -507,6 +507,9 @@ namespace SearchAndRescue.Migrations
                         .HasColumnType("uuid")
                         .HasColumnName("CreatorId");
 
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("timestamp without time zone");
+
                     b.Property<Guid?>("DeleterId")
                         .HasColumnType("uuid")
                         .HasColumnName("DeleterId");
@@ -516,7 +519,7 @@ namespace SearchAndRescue.Migrations
                         .HasColumnName("DeletionTime");
 
                     b.Property<LineString>("GeographyLineString")
-                        .HasColumnType("geography(LINESTRING,4326)");
+                        .HasColumnType("geography(LINESTRINGZ,4326)");
 
                     b.Property<Guid>("IdentityUserId")
                         .HasColumnType("uuid");

@@ -8,7 +8,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace SearchAndRescue.Migrations
 {
     /// <inheritdoc />
-    public partial class mapeamentoinicial : Migration
+    public partial class entidades : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -67,7 +67,8 @@ namespace SearchAndRescue.Migrations
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    GeographyLineString = table.Column<LineString>(type: "geography(LINESTRING,4326)", nullable: true),
+                    GeographyLineString = table.Column<LineString>(type: "geography(LINESTRINGZ,4326)", nullable: true),
+                    Date = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
                     Precisao = table.Column<int>(type: "integer", nullable: false),
                     IdentityUserId = table.Column<Guid>(type: "uuid", nullable: false),
                     ConcurrencyStamp = table.Column<string>(type: "character varying(40)", maxLength: 40, nullable: true),

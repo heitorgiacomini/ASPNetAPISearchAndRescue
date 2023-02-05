@@ -10,9 +10,9 @@ namespace SearchAndRescue.Business
 {
     public class PathSearchOperationBusiness : BaseClassBusiness
     {
-        [Column(TypeName = "geography(LINESTRING,4326)")]
+        [Column(TypeName = "geography(LINESTRINGZ,4326)")]
         public LineString GeographyLineString { get; set; }
-        public DateTime Data { get; set; }
+        public DateTime Date { get; set; }
         public int Precisao { get; set; }
         public Guid IdentityUserId { get; set; }
         public IdentityUser IdentityUser { get; set; }
