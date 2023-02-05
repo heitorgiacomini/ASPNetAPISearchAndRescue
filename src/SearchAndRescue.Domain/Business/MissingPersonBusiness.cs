@@ -1,5 +1,7 @@
-﻿using System;
+﻿using NetTopologySuite.Geometries;
+using System;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Spatial;
 
 namespace SearchAndRescue.Business
@@ -8,7 +10,8 @@ namespace SearchAndRescue.Business
     {
         //HasConversion(new GeographyValueConverter()
         //[Column(TypeName = "geography")]
-        public Geography LastSeenPoint { get; set; }
+        [Column(TypeName = "geography(Point,4326)")]
+        public Point LastSeenPoint { get; set; }
         [MaxLength(30)]
         public string Name { get; set; }
         public long RaceId { get; set; }

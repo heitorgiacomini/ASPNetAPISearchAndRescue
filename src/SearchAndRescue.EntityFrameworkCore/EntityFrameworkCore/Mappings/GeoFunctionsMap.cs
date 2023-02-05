@@ -16,7 +16,7 @@ namespace SearchAndRescue.EntityFrameworkCore.Mappings
             //t.Property(e => e.Point).HasColumnName("NetTopologySuitePoint").HasColumnType("geometry(PointZ, 4326)");
             //t.Property(e => e.GeometryPoint).HasColumnName("NetTopologySuitePoint").HasColumnType("geometry(PointZ, 4326)");
 
-            //t.Ignore(p => p.ExtraProperties);
+            t.Ignore(p => p.ExtraProperties);
         }
 
 

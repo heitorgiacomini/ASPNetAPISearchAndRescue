@@ -99,13 +99,14 @@ namespace SearchAndRescue.Controllers
             return meters / (111.32 * 1000 * Math.Cos(latitude * (Math.PI / 180)));
         }
         [AllowAnonymous]
-        public async Task<OperationDTO> CrieVariasLineStringESalveTodasNoBancoDeUmaVez(CreateUpdateOperationDTO input)
+        public async Task<OperationDTO> CrieVariasObjetosAtribuaLineStringESalveTodoasNoBancoDeUmaVez(CreateUpdateOperationDTO input)
         {
             using (var uow = UnitOfWorkManager.Begin(requiresNew: true)) // Add this scope
             {
                 try
                 {
                     List<GeoFunctionsBusiness> ops = new List<GeoFunctionsBusiness>();
+                    
                     Coordinate[] cords = new Coordinate[] {
                         new Coordinate(-22.008739354151004, -49.9772135956213),
                         new Coordinate(-21.804878967027566, -49.6146647674963),

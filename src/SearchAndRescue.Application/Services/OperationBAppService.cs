@@ -25,14 +25,14 @@ namespace SearchAndRescue.Controllers
     public class OperationBAppService : SearchAndRescueAppService//, IOperationAppService
     {
 
-        private readonly IRepository<GeoFunctions, long> _operationRepository;
-        private readonly IGenericRepository<GeoFunctions, long> _genericRepository;
-        //private readonly ISampleBlogRepository<GeoFunctions, long> _sampleBlogRepository;
+        private readonly IRepository<GeoFunctionsBusiness, long> _operationRepository;
+        private readonly IGenericRepository<GeoFunctionsBusiness, long> _genericRepository;
+        //private readonly ISampleBlogRepository<GeoFunctionsBusiness, long> _sampleBlogRepository;
 
         public OperationBAppService(
-            IRepository<GeoFunctions, long> operationRepository,
-            IGenericRepository<GeoFunctions, long> genericRepository
-        //ISampleBlogRepository<GeoFunctions, long> sampleBlogRepository
+            IRepository<GeoFunctionsBusiness, long> operationRepository,
+            IGenericRepository<GeoFunctionsBusiness, long> genericRepository
+        //ISampleBlogRepository<GeoFunctionsBusiness, long> sampleBlogRepository
         )
         {
             _operationRepository = operationRepository;
@@ -62,7 +62,7 @@ namespace SearchAndRescue.Controllers
 
             return new PagedResultDto<OperationDTO>(
                 totalCount,
-                ObjectMapper.Map<List<GeoFunctions>, List<OperationDTO>>(operations));
+                ObjectMapper.Map<List<GeoFunctionsBusiness>, List<OperationDTO>>(operations));
         }
 
         public Task<OperationDTO> UpdateAsync(long id, CreateUpdateOperationDTO input)
