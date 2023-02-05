@@ -5,16 +5,18 @@ using Volo.Abp.EntityFrameworkCore.Modeling;
 
 namespace SearchAndRescue.EntityFrameworkCore.Mappings
 {
-    public class OperationMap : IEntityTypeConfiguration<OperationBusiness>
+    public class MissingPersonMap : IEntityTypeConfiguration<MissingPersonBusiness>
     {
-        public void Configure(EntityTypeBuilder<OperationBusiness> t)
+        public void Configure(EntityTypeBuilder<MissingPersonBusiness> t)
         {
 
-            t.ToTable(SearchAndRescueConsts.DbTablePrefix + nameof(OperationBusiness), SearchAndRescueConsts.DbSchema);
+            t.ToTable(SearchAndRescueConsts.DbTablePrefix + nameof(MissingPersonBusiness), SearchAndRescueConsts.DbSchema);
             t.ConfigureByConvention();
 
             t.Ignore(p => p.ExtraProperties);
-        } 
+        }
+
+
 
     }
 }

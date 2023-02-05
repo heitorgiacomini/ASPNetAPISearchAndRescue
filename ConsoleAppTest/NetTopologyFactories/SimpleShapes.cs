@@ -37,7 +37,7 @@ namespace ConsoleAppTest.NetTopologyFactories
             ICoordinateTransformation tranformer = ctFact.CreateFromCoordinateSystems(googleMapsSys, anotherSystem);
             return tranformer.MathTransform;
         }
-        
+
         public bool ComparingTwoCoords(Coordinate coord1, Coordinate coord2, double threshold)
         {
             // You can play around with these values so lets say we only

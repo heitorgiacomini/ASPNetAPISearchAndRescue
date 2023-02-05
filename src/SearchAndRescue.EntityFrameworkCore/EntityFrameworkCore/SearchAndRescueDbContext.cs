@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
-using SearchAndRescue.Business.Operation;
+using SearchAndRescue.Business;
 using SearchAndRescue.EntityFrameworkCore.Mappings;
 using Volo.Abp.AuditLogging.EntityFrameworkCore;
 using Volo.Abp.BackgroundJobs.EntityFrameworkCore;
@@ -56,7 +56,17 @@ public class SearchAndRescueDbContext :
 
     #endregion
 
-    public DbSet<Operation> Operation { get; set; }
+    public DbSet<GeoFunctionsBusiness> GeoFunctionsBusiness { get; set; }
+    public DbSet<CountryBusiness> CountryBusiness { get; set; }
+    public DbSet<StateBusiness> StateBusiness { get; set; }
+    public DbSet<CityBusiness> CityBusiness { get; set; }
+    public DbSet<AdressBusiness> AdressBusiness { get; set; }
+    public DbSet<MissingPersonBusiness> MissingPersonBusiness { get; set; }
+    public DbSet<RaceBusiness> RaceBusiness { get; set; }
+    public DbSet<OperationBusiness> OperationBusiness { get; set; }
+    public DbSet<PathSearchOperationBusiness> PathSearchOperationBusiness { get; set; }
+
+    
     public SearchAndRescueDbContext(DbContextOptions<SearchAndRescueDbContext> options)
         : base(options)
     {
@@ -105,6 +115,19 @@ public class SearchAndRescueDbContext :
         //    //...
         //});
 
+        builder.ApplyConfiguration(new GeoFunctionsMap());
+
+        builder.ApplyConfiguration(new CountryMap());
+        builder.ApplyConfiguration(new StateMap());
+        builder.ApplyConfiguration(new CityMap());
+        builder.ApplyConfiguration(new AdressMap());
+        builder.ApplyConfiguration(new MissingPersonMap());
+        builder.ApplyConfiguration(new RaceMap());
         builder.ApplyConfiguration(new OperationMap());
+        builder.ApplyConfiguration(new PathSearchOperationMap());
+
+
+
+
     }
 }
